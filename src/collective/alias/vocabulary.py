@@ -1,8 +1,11 @@
 from five import grok
+from plone import api
 from zope.component.hooks import getSite
 
-from zope.schema.interfaces import IVocabularyFactory
+
+from zope.schema.interfaces import IVocabularyFactory, IContextSourceBinder
 from zope.schema.vocabulary import SimpleVocabulary, SimpleTerm
+from plone.app.vocabularies.catalog import  CatalogSource
 
 from Products.CMFCore.utils import getToolByName
 
@@ -29,3 +32,10 @@ class PortalTypesVocabulary(object):
 
 grok.global_utility(PortalTypesVocabulary,
                     name=u"collective.alias.PortalTypes")
+
+
+@grok.provider(IContextSourceBinder)
+def languageRootActivity(context):
+    lg_root = api.portal.get_navigation_root(context)
+    path = '/'.join(lg_root.getPhysicalPath())
+    return CatalogSource(portal_type=['Activity'], path=path)

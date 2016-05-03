@@ -5,6 +5,9 @@ from plone.supermodel import model
 from z3c.relationfield.schema import RelationChoice
 
 from collective.alias import MessageFactory as _
+from collective.alias.vocabulary import languageRootActivity
+#from plone.app.multilingual.dx import directives as mdirectives
+#from z3c.form import interfaces
 
 
 class IAlias(model.Schema):
@@ -16,7 +19,9 @@ class IAlias(model.Schema):
         title=_(u"Aliased object"),
         description=_(u"Choose an object to alias"),
         required=True,
-        vocabulary="plone.app.vocabularies.Catalog",
+        source=languageRootActivity,
+        # source=CatalogSource(portal_type='Activity')
+
     )
 
     _aliasTitle = schema.TextLine(
@@ -26,6 +31,7 @@ class IAlias(model.Schema):
         required=False,
     )
 
+    #mdirectives.languageindependent('_aliasTraversal')
     _aliasTraversal = schema.Bool(
         title=_(u"Allow traversal"),
         description=_(u"If selected, children of the aliased object will "
@@ -35,14 +41,15 @@ class IAlias(model.Schema):
            "may be useful for e.g. Collections, where some "
            "information is stored in child objects."),
         required=True,
-        default=False,
+        default=True,
     )
 
+    #mdirectives.languageindependent('_aliasIsCanonical')
     _aliasIsCanonical = schema.Bool(
         title=_(u"Is canonical"),
         description=_(u"If selected, a canonical meta tag will be present."),
         required=True,
-        default=False,
+        default=True,
     )
 
 

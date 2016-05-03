@@ -1,6 +1,5 @@
 import logging
 import types
-import new
 
 from persistent.mapping import PersistentMapping
 from rwproperty import getproperty, setproperty
@@ -111,6 +110,9 @@ class Alias(CMFCatalogAware, CMFOrderedBTreeFolderBase, PortalContent, Contained
     __providedBy__ = DelegatingSpecification()
     _alias_portal_type = None
     _alias_properties = None
+    _aliases_attrs = {
+        '_plone.tg': None
+    }
 
     cmf_uid = None
 
@@ -125,6 +127,8 @@ class Alias(CMFCatalogAware, CMFOrderedBTreeFolderBase, PortalContent, Contained
         if id is not None:
             self.id = id
         for k, v in kwargs.items():
+            setattr(self, k, v)
+        for k, v in self._aliases_attrs.items():
             setattr(self, k, v)
 
         # Ensure that the alias gets its own workflow history
@@ -202,16 +206,16 @@ class Alias(CMFCatalogAware, CMFOrderedBTreeFolderBase, PortalContent, Contained
 
     # portal_type
 
-    @getproperty
-    def portal_type(self):
-        aliased = self._target
-        if aliased is None:
-            return self._alias_portal_type
-        return aq_inner(aliased).portal_type
+    # @getproperty
+    # def portal_type(self):
+    #     aliased = self._target
+    #     if aliased is None:
+    #         return self._alias_portal_type
+    #     return aq_inner(aliased).portal_type
 
-    @setproperty
-    def portal_type(self, value):
-        self._alias_portal_type = value
+    # @setproperty
+    # def portal_type(self, value):
+    #     self._alias_portal_type = value
 
     # Hopelessly, Archetypes accesses obj.__annotations__ directly, instead
     # of using an IAnnotations adapter. Delegate to our own adapter, which

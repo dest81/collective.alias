@@ -3,11 +3,11 @@
    i18n:domain="collective.alias" xmlns:i18n="http://xml.zope.org/namespaces/i18n">
 
  <!-- Basic metadata -->
- <property name="title" i18n:translate="">Alias</property>
+ <property name="title" i18n:translate="">Activity Copy</property>
  <property name="description" i18n:translate="">An alias for another content item</property>
   <property name="icon_expr">string:${portal_url}/++resource++collective.alias/alias.gif</property>
  <property name="allow_discussion">False</property>
- <property name="global_allow">True</property>
+ <property name="global_allow">False</property>
  <property name="filter_content_types">False</property>
  <property name="allowed_content_types" />
 
@@ -22,6 +22,8 @@
 
  <!-- Enabled behaviors: These may be overridden by the aliased object! -->
  <property name="behaviors">
+    <element value="plone.app.multilingual.dx.interfaces.IDexterityTranslatable"/>
+    <element value="plone.app.dexterity.behaviors.metadata.ICategorization"/>
  </property>
 
  <!-- View information -->
