@@ -41,6 +41,7 @@ from Products.CMFCore.CMFCatalogAware import CMFCatalogAware
 
 from collective.alias.interfaces import IAlias
 from collective.alias.interfaces import IHasAlias
+from Products.CMFPlone.utils import safe_unicode
 
 import pkg_resources
 
@@ -165,7 +166,7 @@ class Alias(CMFCatalogAware, CMFOrderedBTreeFolderBase, PortalContent, Contained
         aliased = self._target
         if aliased is None:
             return ''
-        return aq_inner(aliased).Description()
+        return safe_unicode(aq_inner(aliased).Description())
 
     # Folderishness
 
