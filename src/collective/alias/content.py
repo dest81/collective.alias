@@ -144,7 +144,7 @@ class Alias(CMFCatalogAware, CMFOrderedBTreeFolderBase, PortalContent, Contained
     def Title(self):
         """Delegated title
         """
-        return self.title
+        return safe_unicode(self.title)
 
     @getproperty
     def title(self):
